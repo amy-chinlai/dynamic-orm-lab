@@ -48,4 +48,12 @@ class InteractiveRecord
         DB[:conn].execute("INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (#{values_for_insert})")
         @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
     end
+
+    def self.find_by_name(name)
+        DB[:conn].execute("SELECT * FROM #{table_name} WHERE name = ?", name)
+    end
+
+    def self.find_by(attribute)
+        DB[:conn].execute("SELECT * FROM #{table_name} WHERE #{attribute.keys.first.to_s} = ?", attribute.values.first)
+    end
 end
